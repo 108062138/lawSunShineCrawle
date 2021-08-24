@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import random
 import time
 
-delayChoices = [0,1,1,2,3,5,8,13,21,34]
+delayChoices = [1,2,3,5,8,13,21,34]
 def crawSunShine(mode):
     url = "https://sunshine.jrf.org.tw/judges"
     judgeid = []
@@ -35,6 +35,8 @@ def crawSunShine(mode):
     #print(judgeid)
     for x in judgeid:
         #print("for the judge id: "+x)
+        if cnt % 50 ==0:
+            time.sleep(30)  #延遲.
         cnt = cnt + 1
         url = "https://sunshine.jrf.org.tw" +x
         print(url)
@@ -47,7 +49,7 @@ def crawSunShine(mode):
         else :
             res[soup.find_all('a')[7].contents[0]] = int(soup.find_all('a')[10].contents[0].split()[0][:])
         criminal.append(selcriminal)
-        if cnt % 5 ==0 :
+        if cnt % 5 ==0  or cnt % 4 == 0:
             delay = random.choice(delayChoices)  #隨機選取秒數
             time.sleep(delay)  #延遲
 
