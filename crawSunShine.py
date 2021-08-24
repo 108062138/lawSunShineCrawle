@@ -5,7 +5,7 @@ import random
 import time
 
 delayChoices = [1,2,3,4,5,6,7]
-def crawSunShine():
+def crawSunShine(mode):
     url = "https://sunshine.jrf.org.tw/judges"
     judgeid = []
     if mode == "test":
