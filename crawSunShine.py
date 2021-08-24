@@ -5,11 +5,13 @@ import random
 import time
 
 delayChoices = [1,2,3,4,5,6,7]
-
 def crawSunShine():
     url = "https://sunshine.jrf.org.tw/judges"
     judgeid = []
-    pages = 8#change this val to avoid blocking
+    if mode == "test":
+        pages = 8#change this val to avoid blocking
+    else: 
+        pages = 199
     criminal = []
     res ={}
 
@@ -49,4 +51,6 @@ def crawSunShine():
         f.write(json.dumps(res,indent=4,ensure_ascii=False))
 
 if __name__ == '__main__':
-    crawSunShine()
+    mode = "test"
+    #mode = "impl"
+    crawSunShine(mode)
