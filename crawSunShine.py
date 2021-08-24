@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import random
 import time
 
-delayChoices = [0,1,1,3,4,5,7,9,11]
+delayChoices = [0,1,1,2,3,5,8,13,21,34]
 def crawSunShine(mode):
     url = "https://sunshine.jrf.org.tw/judges"
     judgeid = []
@@ -55,6 +55,6 @@ def crawSunShine(mode):
         f.write(json.dumps(res,indent=4,ensure_ascii=False))
 
 if __name__ == '__main__':
-    mode = "test"
-    #mode = "impl"
+    #mode = "test"
+    mode = "impl"
     crawSunShine(mode)
