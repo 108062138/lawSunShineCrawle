@@ -4,18 +4,19 @@ from bs4 import BeautifulSoup
 import random
 import time
 
-delayChoices = [1,2,3,5,7,8,10]
+delayChoices = [1,2,3,5,8,13,21,34]
 def crawSunShine(mode):
     url = "https://sunshine.jrf.org.tw/judges?page=101"
     judgeid = []
     if mode == "test":
-        pages = 8#change this val to avoid blocking
+        pages = 3#change this val to avoid blocking
     else: 
         pages = 98
     criminal = []
     res ={}
-
+    cnt = 0
     for i in range(pages):
+        cnt = cnt + 1
         r = requests.get(url)#將此頁面的HTML GET下來
         soup = BeautifulSoup(r.text,"html.parser")
         selid = soup.select("a.card--avatar--judge")
@@ -27,12 +28,16 @@ def crawSunShine(mode):
             rem = x["href"].split()
             print(rem[0])#rem[0] is the next page
         url = "https://sunshine.jrf.org.tw"+ rem[0]
-        delay = random.choice(delayChoices)  #隨機選取秒數
-        time.sleep(delay)  #延遲
+        if cnt % 5 == 0: 
+            delay = random.choice(delayChoices)  #隨機選取秒數
+            time.sleep(delay)  #延遲
 
     #print(judgeid)
     for x in judgeid:
         #print("for the judge id: "+x)
+        if cnt % 50 ==0:
+            time.sleep(30)  #延遲.
+        cnt = cnt + 1
         url = "https://sunshine.jrf.org.tw" +x
         print(url)
         r = requests.get(url)#將此頁面的HTML GET下來
@@ -40,12 +45,13 @@ def crawSunShine(mode):
         #print(soup.find_all('a')[9].contents[0])
         selcriminal = soup.select("div.card--feature__content a")
         if soup.find_all('a')[9].contents[0].split()[0] != "Google相關新聞":
-            res[soup.find_all('a')[7].contents[0]] = soup.find_all('a')[9].contents[0].split()[0]
+            res[soup.find_all('a')[7].contents[0]] = int(soup.find_all('a')[9].contents[0].split()[0][:])
         else :
-            res[soup.find_all('a')[7].contents[0]] = soup.find_all('a')[10].contents[0].split()[0]
+            res[soup.find_all('a')[7].contents[0]] = int(soup.find_all('a')[10].contents[0].split()[0][:])
         criminal.append(selcriminal)
-        delay = random.choice(delayChoices)  #隨機選取秒數
-        time.sleep(delay)  #延遲
+        if cnt % 5 ==0  or cnt % 4 == 0:
+            delay = random.choice(delayChoices)  #隨機選取秒數
+            time.sleep(delay)  #延遲
 
     with open('jg.json','w',encoding = 'utf-8') as f:
         f.write(json.dumps(res,indent=4,ensure_ascii=False))
