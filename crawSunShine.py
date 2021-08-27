@@ -4,14 +4,14 @@ from bs4 import BeautifulSoup
 import random
 import time
 
-delayChoices = [1,2,3,4,5,7,8,10,11,13]
+delayChoices = [1,2,3,5,7,8,10]
 def crawSunShine(mode):
-    url = "https://sunshine.jrf.org.tw/judges"
+    url = "https://sunshine.jrf.org.tw/judges?page=101"
     judgeid = []
     if mode == "test":
         pages = 8#change this val to avoid blocking
     else: 
-        pages = 199
+        pages = 98
     criminal = []
     res ={}
 
